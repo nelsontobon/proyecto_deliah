@@ -1,0 +1,184 @@
+swagger: "2.0"
+info:
+  description: "Api para pedir informacion de los platos de un restaurante"
+  version: "1.0.0"
+  title: "Delilah Restó"
+host: "localhost:3000"  
+basePath: "/v1"
+tags:
+- name: "User"
+  description: "crear, consultar, modificar o eliminar usuario"
+schemes:
+- "http"
+
+paths: 
+  /user/login:
+    get:
+      tags:
+      - "User"
+      summary: "Consultar usuario" 
+      parameters:
+
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "usuario encontrado con exito"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                $ref: "#/definitions/User"
+        "400":
+          description: "no autorizado"
+      security:
+      - api_key: []
+  /user: 
+    post:
+      tags: 
+      - "User"
+      summary: "Crear usuario"
+      parameters:
+
+      - in: "body"
+        name: "body"
+        description: "crear nuevo usuario"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                $ref: "#/definitions/User"
+        "400":
+          description: "no autorizado"
+      security:
+      - api_key: []
+  /user/{username}:
+    put:
+      tags:
+      - "User"
+      summary: "modificar usuario" 
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "username de usuario a modificar"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: 'datos a modificar'
+        required: true
+        schema:
+          type: "object"
+          properties:
+            data:
+              $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                $ref: "#/definitions/User"
+        "400":
+          description: "no autorizado"
+      security:
+      - api_key: []
+          
+    delete:
+      tags:
+      - "User"
+      summary: "borrar usuario"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "id del usuario"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                $ref: "#/definitions/User"
+        "400":
+          description: "no autorizado"
+      security:
+        - api_key: []
+      
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+definitions:
+  User:
+    type: "object"
+    properties:
+      Username:
+        type: "string"
+        description: "identificador unico del usuario"
+      Fullname:
+        type: "string"
+        description: "nombre y apellidpo del usuario"
+      Email:
+        type: "string"
+        description: "correo del usuario"
+      Phone:
+        type: "string"
+        description: "telefono del usuario"
+      Address:
+        type: "string"
+        description: "direccion de envio del usuario"
+      Password:
+        type: "string"
+        description: "contraseña del usuario"
+  
+
+  
+
+
+    
+
+      
