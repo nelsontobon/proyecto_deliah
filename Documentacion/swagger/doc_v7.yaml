@@ -9,11 +9,11 @@ tags:
 - name: "User"
   description: "crear, consultar, modificar o eliminar usuario"
 - name: "Admin"
-  description: "informacion que puede observar el administrador del sitio"
-- name: "Pedido"
-  description: "informacion de los pedidos"
-- name: "Platos"
-  description: "crear, consultar, modificar o eliminar platos"
+  description: "Informacion que puede observar el administrador del sitio"
+- name: "Order"
+  description: "Informacion de los pedidos"
+- name: "Plates"
+  description: "Informacion de los platos"
 schemes:
 - "http"
 
@@ -40,7 +40,7 @@ paths:
 
       responses:
         "200":
-          description: "usuario encontrado con exito"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -50,9 +50,9 @@ paths:
               status_code:
                 type: "integer"
                 description: "codigo de estado"
-              api_key:
-                type: "object"
-                description: "token de autenticacion"
+              message:
+                type: "string"
+                description: "mensaje"
               data:
                 $ref: "#/definitions/User"
         "400":
@@ -72,7 +72,7 @@ paths:
           $ref: "#/definitions/newUser"
       responses:
         "200":
-          description: "respuesta exitosa"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -89,15 +89,15 @@ paths:
       security:
       - api_key: []
       
-  /user/{username}:
+  /user/{id_user}:
     put:
       tags:
       - "User"
       summary: "modificar usuario" 
       parameters:
-      - name: "username"
+      - name: "id_user"
         in: "path"
-        description: "username de usuario a modificar"
+        description: "id de usuario a modificar"
         required: true
         type: "string"
       - in: "body"
@@ -111,7 +111,7 @@ paths:
               $ref: "#/definitions/newUser"
       responses:
         "200":
-          description: "respuesta exitosa"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -133,7 +133,7 @@ paths:
       - "User"
       summary: "borrar usuario"
       parameters:
-      - name: "username"
+      - name: "id_user"
         in: "path"
         description: "id del usuario"
         required: true
@@ -164,7 +164,7 @@ paths:
       summary: "Consultar pedidos" 
       responses:
         "200":
-          description: "usuario encontrado con exito"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -175,13 +175,16 @@ paths:
                 type: "integer"
                 description: "codigo de estado"
               data:
-                $ref: "#/definitions/pedidos"
+                type: "array"
+                description: "lista de pedidos"
+                items:
+                  $ref: '#/definitions/orderItem'
         "400":
             description: "no autorizado"
       security:
         - api_key: []
                 
-  /admin/{id}:
+  /admin/order/{id}:
     get:
       tags:
       - "Admin"
@@ -194,7 +197,7 @@ paths:
         type: "string"
       responses:
         "200":
-          description: "usuario encontrado con exito"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -205,7 +208,7 @@ paths:
                 type: "integer"
                 description: "codigo de estado"
               data:
-                $ref: "#/definitions/pedidoItem"
+                $ref: "#/definitions/orderItem"
                 
         "400":
           description: "no autorizado"
@@ -233,7 +236,7 @@ paths:
               description: "estado al cual debe ser actulizado"
       responses:
         "200":
-          description: "usuario encontrado con exito"
+          description: "Respuesta exitosa"
           schema:
             type: "object"
             properties:
@@ -244,14 +247,113 @@ paths:
                 type: "integer"
                 description: "codigo de estado"
               data:
-                $ref: "#/definitions/pedidoItem"
+                $ref: "#/definitions/orderItem"
                 
         "400":
           description: "no autorizado"
       security:
         - api_key: []
-    
-    
+  
+  /order/neworder: 
+    post:
+      tags: 
+      - "Order"
+      summary: "Crear nuevo pedido"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "informacion del pedido"
+        required: true
+        schema:
+          $ref: "#/definitions/newOrder"
+      responses:
+        "200":
+          description: "Respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                type: "object"
+                description: "informacion del pedido creado"
+                properties:
+                  id: 
+                    type: "integer"
+                    description: "id del evento de pedido creado"
+                  number: 
+                    type: "integer"
+                    description: "numero del pedido"
+                  hour:
+                    type: "string"
+                    description: "hora del pedido"
+        "400":
+          description: "no autorizado"
+      security:
+      - api_key: []
+  
+  /order/{id}:
+    get:
+      tags:
+      - "Order"
+      summary: "Consultar informacion de pedido" 
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "username de usuario a modificar"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                $ref: "#/definitions/orderItem"
+                
+        "400":
+          description: "no autorizado"
+      security:
+        - api_key: []
+  
+  /plates:
+    get:
+      tags:
+      - "Plates"
+      summary: "Consultar platos" 
+      responses:
+        "200":
+          description: "Respuesta exitosa"
+          schema:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: "si fue exitosa o no la peticion"
+              status_code:
+                type: "integer"
+                description: "codigo de estado"
+              data:
+                type: "array"
+                description: "lista de pedidos"
+                items:
+                  $ref: '#/definitions/plateItem'
+        "400":
+            description: "no autorizado"
+      security:
+        - api_key: []
+  
   
 securityDefinitions:
   api_key:
@@ -264,6 +366,9 @@ definitions:
   User:
     type: "object"
     properties:
+      api_key:
+        type: "string"
+        description: "token de autenticacion"
       Username:
         type: "string"
         description: "identificador unico del usuario"
@@ -279,14 +384,10 @@ definitions:
       Address:
         type: "string"
         description: "direccion de envio del usuario"
-      
-  
+
   newUser:
     type: "object"
     properties:
-      Username:
-        type: "string"
-        description: "identificador unico del usuario"
       Fullname:
         type: "string"
         description: "nombre y apellidpo del usuario"
@@ -299,17 +400,14 @@ definitions:
       Address:
         type: "string"
         description: "direccion de envio del usuario"
+      Username:
+        type: "string"
+        description: "identificador unico del usuario"
       Password:
         type: "string"
         description: "contraseña del usuario"
 
-  pedidos:
-    type: "array"
-    description: "lista de pedidos"
-    items:
-      $ref: '#/definitions/pedidoItem'
-        
-  pedidoItem:
+  orderItem:
     type: "object"
     properties:
       id:
@@ -345,8 +443,53 @@ definitions:
       address:
         type: "string"
         description: "direccion de envio del usuario"
-
   
+  newOrder:
+    type: "object"
+    properties:
+      id_user:
+        type: "integer"
+        description: "id del usuario que ordeno"
+      order:
+        type: "array"
+        description: "lista con los id's de los platos a pedir"
+        items:
+          type: "object"
+          description: "lista con los id's de los platos a pedir"
+          properties: 
+            id_plate:
+              type: "integer"
+              description: "id del plato apedir"
+            quantity:
+              type: "integer"
+              description: "cantidad de platos"
+            
+      payment:
+        type: "object"
+        properties:
+          method:
+            type: "string"
+            description: "id del medio de pago"
+          value:
+            type: "integer"
+            description: "dinero cancelado"
+      address:
+        type: "string"
+        description: "direccion de envio del pedido"
+
+  plateItem:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "id del plato"
+      name: 
+        type: "string"
+        description: "nombre del plato"
+      value:
+        type: "integer"
+        description: "precio del plato"
+        
 
 
     

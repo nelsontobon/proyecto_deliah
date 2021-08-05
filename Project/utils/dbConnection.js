@@ -1,10 +1,11 @@
-const {database} = require('./keys.js');
+const config = require('./config');
 const Sequelize = require('sequelize');
 
+const database = JSON.parse(config.DATABASE)
 
 const sequelize = new Sequelize(database.DB, database.USER, database.PASSWORD, {
     host: database.HOST,
-    dialect: database.dialect,
+    dialect: 'mysql',
     operatorsAliases: 0,
     port: database.PORT,
 
