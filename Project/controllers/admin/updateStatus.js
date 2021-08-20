@@ -1,10 +1,12 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para actualizar el estado de una orden
+ */
+const response = require('../../config/response.js')
 
 const {
     selNewOrderStatus,
     updateStatusOrder
 } = require('../../model/db_admin')
-
 
 const updateStatus = (req, res) => {
     let {id} = req.query
@@ -12,8 +14,7 @@ const updateStatus = (req, res) => {
 
     updateStatusOrder(id, id_status).then(() => {
         selNewOrderStatus(id).then((order) => {
-
-            console.log(id_status == order[0].id_status)
+            console.log();
             if (id_status == order[0].id_status){
                 res.status(200).send(
                     new response(
@@ -24,32 +25,24 @@ const updateStatus = (req, res) => {
                     )
                 )
             }else{
-                res.status(400).send(
-                    new response(
-                        'error',
-                        '400',
-                        'No se ha actualizado la orden'
-                    )
-                )
+                throw 'Error';
             }
-            
         }).catch((err) => {
-                console.error('Error de conexion:', err);
-                res.status(400).send(
+                res.status(500).send(
                     new response(
                         'error',
-                        '400',
-                        'No se ha actualizado la orden'
+                        '500',
+                        'Error en la base de datoss'
                     )
                 )
         })
     }).catch((err) => {
             console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'No se ha actualizado la orden'
+                    '500',
+                    'Error en la base de datos'
                 )
             )
     })

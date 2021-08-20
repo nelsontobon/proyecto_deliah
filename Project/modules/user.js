@@ -1,7 +1,14 @@
+/**
+ * creacion de los endpoint para la entidad user
+ */
 const express = require('express');
 const router = express.Router();
 
-const middle = require('../middlewars/middle_user.js')
+const {limiterSingUp} = require('../middlewars/user/limiterSingUp')
+const {validateUser} = require('../middlewars/user/validateUser')
+const {validateId} = require('../middlewars/user/validateId')
+const {validateUserAccess} = require('../middlewars/user/validateUserAccess')
+const {validateInfoNewUser} = require('../middlewars/user/validateInfoNewUser')
 
 const {loginUser} = require('../controllers/user/loginUser')
 const {singUpUser} = require('../controllers/user/singUpUser')
@@ -9,14 +16,13 @@ const {deleteUser} = require('../controllers/user/deleteUser')
 const {updateUser} = require('../controllers/user/updateUser')
 
 
+router.post("/login", limiterSingUp, loginUser)
 
-router.post("/login", middle.limiterSingUp, loginUser);
+router.post("/singUp",  validateInfoNewUser, validateUser,  singUpUser)
 
-router.post("/singUp", middle.validateUser, singUpUser)
+router.delete("/", validateUserAccess, validateId,  deleteUser)
 
-router.delete("/", middle.validateId, deleteUser)
-
-router.put("/", middle.validateId,updateUser)
+router.put("/", validateUserAccess, validateId,  updateUser)
 
 
 module.exports = router

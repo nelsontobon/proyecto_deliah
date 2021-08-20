@@ -1,10 +1,11 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para obtener el detalle de una orden por parte de un usario admin
+ */
+const response = require('../../config/response.js')
 
 const {
     selAdminOrderId
 } = require('../../model/db_admin')
-
-
 
 const adminDetail = (req, res) => {
     const {id} = req.query
@@ -51,12 +52,11 @@ const adminDetail = (req, res) => {
             )
         )
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'No se ha encontrado ninguna orden'
+                    '500',
+                    'Error en la base de datos'
                 )
             )
     })

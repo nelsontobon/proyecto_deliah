@@ -1,7 +1,10 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para eliminar un plato
+ * Solo usuarios administradores
+ */
+const response = require('../../config/response.js')
 
 const {deletePlateId} = require('../../model/db_plates')
-
 
 const deletePlate = (req, res) => {
     let { id } = req.query
@@ -15,11 +18,10 @@ const deletePlate = (req, res) => {
             )
         )
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
+                    '500',
                     'ha ocurrido un error al eliminar el plato'
                 )
             )

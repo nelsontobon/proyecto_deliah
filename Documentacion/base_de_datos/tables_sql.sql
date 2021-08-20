@@ -20,6 +20,7 @@ CREATE TABLE users (
     address NVARCHAR(200) NOT NULL,
     username NVARCHAR(100) NOT NULL,
     password NVARCHAR(100) NOT NULL,
+    admin TINYINT(1) NOT NULL
     PRIMARY KEY (id_user)
 );
 ----------------------------------------------
@@ -54,13 +55,7 @@ CREATE TABLE order_plates (
     PRIMARY KEY (id_event,id_plate)
 );
 -----------------------------------------------
-INSERT INTO delilah_resto.status 
-(description)
-VALUES ('nuevo'),('confirmado'),('preparando'),('enviando'),('cancelado'),('entregado')
------------------------------------------------
-INSERT INTO delilah_resto.payment_method 
-(method)
-VALUES ('efectivo'),('tarjeta de credito'
+
 
 
 

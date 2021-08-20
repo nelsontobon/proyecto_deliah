@@ -1,4 +1,8 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para seleccionar el detalle de una orden por parte de un usaurio
+ * no admin
+ */
+const response = require('../../config/response.js')
 
 const {
     selOrderId,
@@ -45,11 +49,11 @@ const selOrderHis = (req, res) => {
         )
     }).catch((err) => {
             console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'No se ha encontrado ninguna orden'
+                    '500',
+                    'Error al seleccionar la orden'
                 )
             )
     })

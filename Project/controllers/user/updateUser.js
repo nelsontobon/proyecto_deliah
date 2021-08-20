@@ -1,15 +1,18 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para actualizar la informacion de un usuario
+ */
+const response = require('../../config/response.js')
 
 const {
     updateUserId,
     selUserId
 } = require('../../model/db_user')
 
-
 const updateUser = (req, res) => {
     let {
         id
     } = req.query
+
     let body = req.body
     let fields = []
 
@@ -26,19 +29,24 @@ const updateUser = (req, res) => {
                 new response(
                     'ok',
                     '200',
-                    'usuario actulizado correctamente',
+                    'usuario actualizado correctamente',
                     data
                 )
             )
         }).catch((err) => {
-            console.error('Error de conexion:', err);
+            res.status(500).send(
+                new response(
+                    'error',
+                    '500',
+                    'ha ocurrido un error al actualizar el usuario'
+                )
+            )
         })
     }).catch((err) => {
-        console.error('Error de conexion:', err);
-        res.status(400).send(
+        res.status(500).send(
             new response(
                 'error',
-                '400',
+                '500',
                 'ha ocurrido un error al actualizar el usuario'
             )
         )

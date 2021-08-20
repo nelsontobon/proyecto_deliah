@@ -1,3 +1,6 @@
+/**
+ * Generar la conexion con la base de datos
+ */
 const config = require('./config');
 const Sequelize = require('sequelize');
 

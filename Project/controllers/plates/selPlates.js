@@ -1,9 +1,11 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para seleccionar todos los platos
+ */
+const response = require('../../config/response.js')
 
 const {
     selAllPlates
 } = require('../../model/db_plates')
-
 
 const selPlates = (req, res) => {
 
@@ -17,12 +19,11 @@ const selPlates = (req, res) => {
             )
         )
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'ha ocurrido un error'
+                    '500',
+                    'ha ocurrido un error al seleccionar los platos'
                 )
             )
     })

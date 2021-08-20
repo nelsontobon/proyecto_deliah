@@ -1,9 +1,11 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para seleccionar la informacion de un plato
+ */
+const response = require('../../config/response.js')
 
 const {
     selPlateById
 } = require('../../model/db_plates')
-
 
 const selPlateId = (req, res) => {
     const {id} = req.query
@@ -18,12 +20,11 @@ const selPlateId = (req, res) => {
             )
         )
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'ha ocurrido un error'
+                    '500',
+                    'ha ocurrido un error al seleccionar el plato'
                 )
             )
     })

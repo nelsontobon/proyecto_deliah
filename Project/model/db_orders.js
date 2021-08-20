@@ -1,5 +1,9 @@
-const sequelize = require('../utils/dbConnection.js');
+/**
+ * modelos de base de datos para la entidad order
+ */
+const sequelize = require('../config/dbConnection.js');
 
+// Selecciona la orden por el id para usuarios no administradores
 const selOrderId = (id) => {
     return sequelize.query(`SELECT a.id_event,a.id_user,a.id_payment,a.id_status,b.id_plate ,a.address,c.price,b.quantity,c.price,c.name,e.method,a.event_hour
         FROM delilah_resto.orders_events as a 
@@ -13,12 +17,14 @@ const selOrderId = (id) => {
     })
 }
 
+// Selecciona la ultima orden creada
 const selLastOrder = () => {
     return sequelize.query('SELECT * FROM delilah_resto.orders_events WHERE id_event = (SELECT LAST_INSERT_ID());', {
         type: sequelize.QueryTypes.SELECT,
     })
 }
 
+// Inserta una nueva orden
 const insertOrder = (order) => {
     return sequelize.query('INSERT INTO delilah_resto.orders_events (id_user,id_payment,id_status,address, event_hour) VALUES (?,?,?,?,NOW());', {
         type: sequelize.QueryTypes.INSERT,
@@ -26,6 +32,7 @@ const insertOrder = (order) => {
     })
 }
 
+// Inserta los platos relacionados a una orden
 const insertOrderPlate = (orderPlate) => {
     return sequelize.query(`INSERT INTO delilah_resto.order_plates (id_event,id_plate,quantity) VALUES ${orderPlate};`, {
         type: sequelize.QueryTypes.INSERT,

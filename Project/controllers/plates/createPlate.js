@@ -1,26 +1,43 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para crear un nuevo plato
+ * Solo usuarios administradores
+ */
+const response = require('../../config/response.js')
 
 const {
-    insertPlate
+    insertPlate,
+    sellLastUser
 } = require('../../model/db_plates')
 
 const createPlate = (req, res) => {
     const{name, description, price, category} = req.body
     insertPlate([name, description, price, category]).then(function () {
-        res.status(200).send(
-            new response(
-                'ok',
-                '200',
-                'Se ha creado exitosamente el plato',
+        sellLastUser().then(function (resp) {
+            res.status(200).send(
+                new response(
+                    'ok',
+                    '200',
+                    'Se ha creado exitosamente el plato',
+                    resp
+                )
             )
-        )
+            }).catch((err) => {
+                console.error(err)
+                res.status(500).send(
+                    new response(
+                        'error',
+                        '500',
+                        'ha ocurrido un error al crear el plato11',
+                        err
+                    )
+                )
+        })
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
-                    'ha ocurrido un error'
+                    '500',
+                    'ha ocurrido un error al crear el plato'
                 )
             )
     })

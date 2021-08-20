@@ -1,4 +1,8 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para actualizar la informacion de un plato
+ * Solo usuarios administradores 
+ */
+const response = require('../../config/response.js')
 
 const {
     selPlateById,
@@ -19,24 +23,28 @@ const updatePlate = (req, res) => {
 
     updatePlateId(id, fields).then(function () {
         selPlateById(id).then(function (plate) {
-
             res.status(200).send(
                 new response(
                     'ok',
                     '200',
-                    'plato actulizado correctamente',
+                    'plato actualizado correctamente',
                     plate[0]
                 )
             )
         }).catch((err) => {
-            console.error('Error de conexion:', err);
+            res.status(500).send(
+                new response(
+                    'error',
+                    '500',
+                    'ha ocurrido un error al actualizar el plato'
+                )
+            )
         })
     }).catch((err) => {
-        console.error('Error de conexion:', err);
-        res.status(400).send(
+        res.status(500).send(
             new response(
                 'error',
-                '400',
+                '500',
                 'ha ocurrido un error al actualizar el plato'
             )
         )

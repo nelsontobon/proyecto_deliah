@@ -1,10 +1,11 @@
+/**
+ * Controlador para loguear un usuario
+ */
 const {selLogin} = require('../../model/db_user')
-const response = require('../../utils/response')
-const jwt = require('jsonwebtoken');
+const response = require('../../config/response')
+const {getToken} = require('./getToken')
 
-const JWTCLAVE = "Ac4m1c4_2021!";
-
-const loginUser = async (req, res) => {
+const loginUser =  (req, res) => {
 
     let {
         username,
@@ -14,16 +15,7 @@ const loginUser = async (req, res) => {
     selLogin([username,password]).then(function (users) {
         if (users.length > 0) {
             if (username == users[0].username || password == users[0].password) {
-                const token = jwt.sign({
-                        usuario: username,
-                        password: password
-                    },
-                    JWTCLAVE, {
-                        expiresIn: '1h'
-                    }, {
-                        algorithm: 'RS256'
-                    }
-                );
+                const token = getToken(users[0].id_user, users[0].username, users[0].admin)
 
                 data = users[0]
                 data.api_key = token
@@ -39,19 +31,17 @@ const loginUser = async (req, res) => {
                 );
             }
         } else {
-            res.status(401).send(
-                new response(
-                    'error',
-                    '402',
-                    'usuario incorrecto'
-                )
+            throw 'Error'
+        }
+    }).catch((err) => {
+        res.status(500).send(
+            new response(
+                'error',
+                '500',
+                'ha ocurrido un error al registrar el usuario'
             )
-        }
-    }).catch(
-        (err) => {
-            console.error('Error de conexion:', err);
-        }
-    )
+        )
+    })
 }
 
 module.exports = {loginUser}

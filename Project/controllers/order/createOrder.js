@@ -1,4 +1,7 @@
-const response = require('../../utils/response.js')
+/**
+ * Controlador para generar una nueva orden
+ */
+const response = require('../../config/response.js')
 
 const {
     insertOrder,
@@ -11,7 +14,7 @@ const createOrder = (req, res) => {
 
     insertOrder([id_user, payment.method, 1, address]).then(() => {
         selLastOrder().then((order_event) => {
-            const {id_event, id_user, id_payment, id_status} = order_event[0]            
+            const {id_event} = order_event[0]            
             let valueslist = []
 
             for (let item of order) {
@@ -31,31 +34,28 @@ const createOrder = (req, res) => {
                     )
                 )
             }).catch((err) => {
-                console.error('Error de conexion:', err);
-                res.status(400).send(
+                res.status(500).send(
                     new response(
                         'error',
-                        '400',
+                        '500',
                         'ha ocurrido un error al crear la order'
                     )
                 )
             })
         }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
+                    '500',
                     'ha ocurrido un crear la order'
                 )
             )
         })
     }).catch((err) => {
-            console.error('Error de conexion:', err);
-            res.status(400).send(
+            res.status(500).send(
                 new response(
                     'error',
-                    '400',
+                    '500',
                     'ha ocurrido un error'
                 )
             )

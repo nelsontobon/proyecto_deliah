@@ -1,17 +1,18 @@
 const express = require('express');
 const helmet = require('helmet');
+const response = require('../config/response.js')
 const rateLimit = require('express-rate-limit');
 const expressJwt = require('express-jwt');
+const config = require('../config/config');
 
 //------------- MIDDLEWARS --------------------------------
 
+// Limita el numero de peticiones por hora
 let limiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 60 minutos
     max: 20,
     message: "Se supero el limite de 20 peticiones por hora"
 });
-
-const JWTCLAVE = "Ac4m1c4_2021!";
 
 module.exports = function (app) {
     app.use(helmet());
@@ -19,13 +20,33 @@ module.exports = function (app) {
     app.use(express.json());
 
     app.disable('x-powered-by');
-    app.use(express.json({limit: '100kb'}));
+
+    // Limitar el tamaño de los archivos
+    app.use(express.json({
+        limit: '100kb'
+    }));
     app.use(limiter);
 
+    // Seguridad por token
     app.use(expressJwt({
-            secret: JWTCLAVE,
-            algorithms: ['sha1', 'RS256', 'HS256']   
-        }).unless({
-            path: ["/user/login", "/user/singUp"]
+        secret: config.TOKENPASSWORD,
+        algorithms: ['sha1', 'RS256', 'HS256']
+    }).unless({
+        path: ["/user/login", "/user/singUp"]
     }));
+
+    // Verificacion del token
+    app.use(function (err, req, res, next) {
+        if (err.name === 'UnauthorizedError') {
+            res.status(401).send(
+                new response(
+                    'error',
+                    '401',
+                    'Token invalido'
+                )
+            )
+        }
+        next()
+    });
+
 }
