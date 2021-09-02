@@ -41,6 +41,7 @@ CREATE TABLE orders_Events (
     id_user INT NOT NULL ,
     id_payment INT NOT NULL,
     id_status INT NOT NULL,
+    address  VARCHAR(150) NOT NULL,
     event_hour datetime NOT NULL,
     PRIMARY KEY (id_event),
     FOREIGN KEY (id_user) REFERENCES users(id_user),
