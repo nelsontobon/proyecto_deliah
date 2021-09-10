@@ -403,7 +403,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXJuYW1lIjoidXNlcjEyMiIsImFkbWluIjoxLCJpYXQiOjE2MjkzMzk2NjIsImV4cCI6MTYyOTM0MzI2Mn0.ngewtI24YCjfAo5WPydnF688qIBqsHut89Y-NbE1up0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXJuYW1lIjoidXNlcjEyMiIsImFkbWluIjoxLCJpYXQiOjE2MzEyMzY5MjksImV4cCI6MTYzMTI0MDUyOX0.vOgiuEFefYaxwQAPkwDC0Yoj8D0aBi0ahFzuI1dnUH8",
 									"type": "string"
 								}
 							]
@@ -412,7 +412,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id_user\" : 20, \r\n    \"order\" : [\r\n        {\r\n        \"id_plate\": 3,\r\n        \"quantity\": 3\r\n        }\r\n    ], \r\n    \"payment\": {\r\n        \"method\": 1,\r\n        \"value\": 500\r\n    }, \r\n    \"address\" : \"cra 23\"\r\n}",
+							"raw": "{\r\n    \"id_user\" : 20, \r\n    \"order\" : [\r\n        {\r\n        \"id_plate\": 4,\r\n        \"quantity\": 3\r\n        }\r\n    ], \r\n    \"payment\": {\r\n        \"method\": 1,\r\n        \"value\": 500\r\n    }, \r\n    \"address\" : \"cra 23\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -430,6 +430,51 @@
 								"order",
 								"neworder",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order: deshabilitar orden",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXJuYW1lIjoidXNlcjEyMiIsImFkbWluIjoxLCJpYXQiOjE2MzEyMzY5MjksImV4cCI6MTYzMTI0MDUyOX0.vOgiuEFefYaxwQAPkwDC0Yoj8D0aBi0ahFzuI1dnUH8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"is_active\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/order/unable?id=35",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								"unable"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "35"
+								}
 							]
 						}
 					},
@@ -485,7 +530,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXJuYW1lIjoidXNlcjEyMiIsImFkbWluIjoxLCJpYXQiOjE2MjkzMzk2NjIsImV4cCI6MTYyOTM0MzI2Mn0.ngewtI24YCjfAo5WPydnF688qIBqsHut89Y-NbE1up0",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXJuYW1lIjoidXNlcjEyMiIsImFkbWluIjoxLCJpYXQiOjE2MzEyMzY5MjksImV4cCI6MTYzMTI0MDUyOX0.vOgiuEFefYaxwQAPkwDC0Yoj8D0aBi0ahFzuI1dnUH8",
 									"type": "string"
 								}
 							]
