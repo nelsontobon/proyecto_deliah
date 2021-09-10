@@ -16,7 +16,7 @@ const unableOrder = (req, res) => {
                     new response(
                         'ok',
                         '200',
-                        'Orden actualizada inhabilitada correctamente'
+                        'Orden inhabilitada correctamente'
                     )
                 )
     }).catch((err) => {
