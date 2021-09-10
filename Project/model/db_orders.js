@@ -26,7 +26,7 @@ const selLastOrder = () => {
 
 // Inserta una nueva orden
 const insertOrder = (order) => {
-    return sequelize.query('INSERT INTO delilah_resto.orders_events (id_user,id_payment,id_status,address, event_hour) VALUES (?,?,?,?,NOW());', {
+    return sequelize.query('INSERT INTO delilah_resto.orders_events (id_user,id_payment,id_status,address, event_hour, is_active) VALUES (?,?,?,?,NOW(),1);', {
         type: sequelize.QueryTypes.INSERT,
         replacements: order
     })
@@ -39,10 +39,18 @@ const insertOrderPlate = (orderPlate) => {
     })
 }
 
+const updateIsActiveOrder = (id, new_status) => {
+    return sequelize.query('UPDATE delilah_resto.orders_events SET is_active = ? WHERE id_event = ?', {
+            type: sequelize.QueryTypes.UPDATE,
+            replacements: [new_status, id]
+        })
+}
+
 
 module.exports = {
     selOrderId,
     selLastOrder,
     insertOrder,
-    insertOrderPlate
+    insertOrderPlate,
+    updateIsActiveOrder
 }

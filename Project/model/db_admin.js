@@ -28,6 +28,7 @@ const selAdminOrders = () => {
         INNER JOIN delilah_resto.status AS d ON a.id_status = d.id_status 
         INNER JOIN delilah_resto.payment_method AS e ON a.id_payment = e.id_payment 
         INNER JOIN delilah_resto.users AS f ON a.id_user = f.id_user
+        where a.is_active = 1
         group by id_event;
         `, {
             type: sequelize.QueryTypes.SELECT
